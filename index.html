@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calculator</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: oldlace;
+        }
+
+        .container {
+            position: relative;
+            top: 40px;
+            background: rgb(214, 209, 199);
+            width: 410px;
+            height: 580px;
+            border-radius: 20px;
+            opacity: 0.9;
+        }
+
+        .calculator {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            margin: 20px;
+            width: 370px;
+            cursor: pointer;
+        }
+
+        .display {
+            position: absolute;
+            overflow: hidden;
+            width: 100%;
+            height: 80px;
+            background-color: #5f7272;
+            top: 0px;
+            color: aliceblue;
+            border-radius: 30px ;
+            display: flex;
+            align-items: center;
+            justify-content: end;
+            font-size: 30px;
+            
+        }
+        .screen{
+            position: relative;
+            right: 10px;
+        }
+
+        .keys {
+            position: absolute;
+            display: flex;
+            margin: 5px;
+            padding: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            top: 90px;
+            border-radius: 45px;
+            /* box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset; */
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 90px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 90px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+            background-color: whitesmoke;
+        }
+
+        .number,
+        .clear,
+        .clearOne,
+        .equal {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin: 2px;
+            background: #6D9886;
+            border-radius: 50px;
+            font-size: xx-large;
+            box-shadow: rgba(0, 0, 0, 0.5) 0px 1px 3px 0px, rgba(0, 0, 0, 0.5) 0px 2px 3px 0px;
+            color: white;
+
+        }
+
+        .operators{
+            background-color: #393E46;
+        }
+        .new {
+            scale: 0.96;
+            background: ;
+            box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 3px 0px, rgba(0, 0, 0, 0.3) 0px 2px 3px 0px;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="container">
+        <div class="calculator">
+            <div class="display"><span class="screen">0</span></div>
+            <div class="keys">
+                <div class="number operators">+</div>
+                <div class="number operators">-</div>
+                <div class="number operators">*</div>
+                <div class="number operators">/</div>
+                <div class="number">1</div>
+                <div class="number">2</div>
+                <div class="number">3</div>
+                <div class="number operators">(</div>
+                <div class="number four">4</div>
+                <div class="number five">5</div>
+                <div class="number six">6</div>
+                <div class="number operators">)</div>
+                <div class="number seven">7</div>
+                <div class="number eight">8</div>
+                <div class="number nine">9</div>
+                <div class="number point operators">.</div>
+                <div class="exc clear">AC</div>
+                <div class="number zero">0</div>
+                <div class="exc clearOne">C</div>
+                <div class="exc equal operators">=</div>
+            </div>
+        </div>
+        <audio class="audio" src="./audio/rclick.mp3"></audio>
+    </section>
+    <script>
+        const number = document.querySelectorAll('.number');
+        const display = document.querySelector('.screen');
+        const equal = document.querySelector('.equal');
+        const clear = document.querySelector('.clear');
+        const clearOne = document.querySelector('.clearOne')
+        const exc = document.querySelectorAll('.exc')
+        const audio = document.querySelector('.audio');
+        let screen = '';
+
+        number.forEach((e) => {
+
+            e.addEventListener('click', function () {
+               
+                e.classList.add('new')
+
+                setTimeout(() => {
+                    e.classList.remove('new');
+                }, 150)
+                
+                audio.play()
+
+                let cS = e.textContent;
+                screen += cS;
+                display.innerHTML = screen;
+            })
+        })
+
+
+        exc.forEach((e) => {
+
+            e.addEventListener('click', () => {
+                e.classList.add('new')
+
+                setTimeout(() => {
+                    e.classList.remove('new');
+                }, 150)
+
+                audio.play()
+            })
+        })
+
+
+        equal.addEventListener('click', () => {
+            try {
+                screen = eval(screen);
+                display.innerHTML = screen;
+            } catch (error) {
+                screen = ''
+                display.innerHTML = 'error';
+            }
+            if (screen === undefined) {
+                screen = '';
+                display.innerHTML = 'enter';
+            }
+        })
+
+        clear.addEventListener('click', function () {
+            screen = '';
+            display.innerHTML = 0;
+        })
+        clearOne.addEventListener('click', function () {
+            let changeS = screen.slice(0, screen.length - 1);
+            screen = changeS;
+            display.innerHTML = screen;
+
+        })
+</script>
+</body>
+
+</html>
